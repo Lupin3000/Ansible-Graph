@@ -108,3 +108,12 @@ into
 ```
 _engine = '/usr/local/bin/dot'
 ```
+
+---
+
+## Next steps (_ToDo_)
+
+- more reports (_like: PDF, XML, JSON..._)
+- more testing (_I was lazy_)
+- matplotlib integration
+- more options (_what you can give as argument_)
