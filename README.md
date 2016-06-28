@@ -1,7 +1,7 @@
 # Ansible-Graph
 
 
-Ansible-Graph create reports and graphs (_using Graphviz_) about Ansible project structure (_Directories and Files_) and Ansible roles.
+With Ansible-Graph you create reports and graphs (_using Graphviz_) about your Ansible project structure (_Directories and Files_) and Ansible roles.
 
 ---
 
@@ -54,10 +54,10 @@ $ .env/bin/python -B ansible_graph.py <project> <configuration>
 ### Not-recommended option: (_system wide_)
 
 ```
-# install system wide (not recommended)
+# install system wide
 $ sudo pip install -r requirements.txt
 
-# show help (recommended)
+# show help
 $ make help
 ```
 
