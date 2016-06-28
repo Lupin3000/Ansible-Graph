@@ -45,10 +45,10 @@ $ make cleanenv
 
 ```
 # show help
-$ ENV/bin/python -B ansible_graph.py --help
+$ .env/bin/python -B ansible_graph.py --help
 
 # run application
-$ ENV/bin/python -B ansible_graph.py <project> <configuration>
+$ .env/bin/python -B ansible_graph.py <project> <configuration>
 ```
 
 ### Not-recommended option: (_system wide_)
