@@ -56,9 +56,6 @@ $ .env/bin/python -B ansible_graph.py <project> <configuration>
 ```
 # install system wide
 $ sudo pip install -r requirements.txt
-
-# show help
-$ make help
 ```
 
 ### Usage:
@@ -117,3 +114,4 @@ _engine = '/usr/local/bin/dot'
 - more testing (_I was lazy_)
 - matplotlib integration
 - more options (_what you can give as argument_)
+- Docker
