@@ -13,23 +13,45 @@ class ReportPlain(ReportBase):
         ReportBase.__init__(self)
 
     @staticmethod
-    def __iterate_dict(dict_content):
+    def _iterate_project(project_content):
         """
         Iterate over dictionary
 
-        @param dict_content: content dictionary with lists
-        @type dict_content: dict
+        @param project_content: project content dictionary with lists
+        @type project_content: dict
 
-        @return: string
+        @return: str
         """
 
         content = str()
+
         content += '\n\nFiles:'
-        for item in dict_content['files']:
+        for item in project_content['files']:
             content += '\n - %s' % item
         content += '\n\nSubdirectories:'
-        for item in dict_content['directories']:
+        for item in project_content['directories']:
             content += '\n - %s' % item
+
+        return content
+
+    @staticmethod
+    def _iterate_roles(roles_content):
+        """
+
+        @param roles_content: roles content dictionary with lists
+        @type roles_content: dict
+
+        @return: str
+        """
+
+        content = str()
+
+        for key, value in roles_content.iteritems():
+            content += '\n' + key + ':\n'
+            if value:
+                for item in value:
+                    content += ' - ' + item + '\n'
+
         return content
 
     def render_report(self):
@@ -45,25 +67,33 @@ class ReportPlain(ReportBase):
                 meta += "\n{:<15} {:<30}".format(key.title() + ':', value)
         meta += "\n" + double_line
 
-        # define content
-        content = str()
-        content += '\nDirectory: root'
-        content += ReportPlain.__iterate_dict(self._report_content['root'])
-        del self._report_content['root']
-        content += '\n' + simple_line
+        # define project content
+        project = str()
 
-        for key, value in self._report_content.iteritems():
-            content += '\nDirectory: %s' % key
-            content += ReportPlain.__iterate_dict(value)
-            content += "\n" + simple_line
+        project += '\nDirectory: root'
+        project += ReportPlain._iterate_project(self._project_content['root'])
+        del self._project_content['root']
+        project += '\n' + simple_line
 
-        self._report = meta + content
+        for key, value in self._project_content.iteritems():
+            project += '\nDirectory: %s' % key
+            project += ReportPlain._iterate_project(value)
+            project += "\n" + simple_line
+
+        # define roles content
+        roles = str()
+
+        roles += '\nRoles and Dependencies:\n'
+        roles += ReportPlain._iterate_roles(self._role_content)
+
+        # combine reports
+        self._report = meta + project + roles
 
     def get_report(self):
         """
-        Return full report
+        Return full plain report
 
-        @return: string
+        @return: str
         """
 
         return self._report

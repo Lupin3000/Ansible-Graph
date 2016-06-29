@@ -40,7 +40,8 @@ class ReportGenerator(object):
 
         self.__report_format = str(report.lower())
         self.__meta = dict()
-        self.__content = dict()
+        self.__project_content = dict()
+        self.__role_content = dict()
         self.__report = str()
 
     def set_report_header(self, meta):
@@ -68,36 +69,39 @@ class ReportGenerator(object):
 
         self.__meta = meta
 
-    def set_report_content(self, content):
+    def set_report_content(self, project_content, role_content):
         """
         Set report content values
 
-        @param content: content for report
-        @type content: dict
+        @param project_content: project content for report
+        @type project_content: dict
+        @param role_content: role content for report
+        @type role_content: dict
 
         @raise e: TypeError
         @raise e: ValueError
         """
 
-        self.__logger.debug('Set report content - %s', content)
+        self.__logger.debug('Content - %s - %s', project_content, role_content)
 
-        if not isinstance(content, dict):
-            msg = 'Parameter: content needs to a dictionary'
+        if not isinstance(project_content, dict):
+            msg = 'Parameter: project_content needs to a dictionary'
             self.__logger.error(msg)
             raise TypeError(msg)
 
-        if not content:
-            msg = 'Parameter: no content provided'
+        if not project_content:
+            msg = 'Parameter: no project_content provided'
             self.__logger.error(msg)
             raise ValueError(msg)
 
-        self.__content = content
+        self.__project_content = dict(project_content)
+        self.__role_content = dict(role_content)
 
     def get_report(self):
         """
         Generate full test report
 
-        @return: string
+        @return: str
         """
 
         if self.__report_format == 'json':
@@ -113,7 +117,8 @@ class ReportGenerator(object):
 
             plain = ReportPlain()
             plain.set_report_meta(self.__meta)
-            plain.set_report_content(self.__content)
+            plain.set_report_content(self.__project_content,
+                                     self.__role_content)
             plain.render_report()
             self.__report = plain.get_report()
 

@@ -134,7 +134,7 @@ class AnsibleGraphRunner(object):
         """
         Return full report
 
-        @return: string
+        @return: str
         """
 
         output = str()
@@ -145,7 +145,8 @@ class AnsibleGraphRunner(object):
         try:
             report = ReportGenerator(self.__arg_options['report'])
             report.set_report_header(meta)
-            report.set_report_content(self.__directory_content)
+            report.set_report_content(self.__directory_content,
+                                      self.__role_content)
             output = report.get_report()
         except (TypeError, ValueError) as error:
             self.__LOGGER.error(error)

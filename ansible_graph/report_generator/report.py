@@ -16,7 +16,8 @@ class ReportBase(object):
 
         self._report = str()
         self._report_meta = dict()
-        self._report_content = dict()
+        self._project_content = dict()
+        self._role_content = dict()
 
     def set_report_meta(self, meta):
         """
@@ -31,21 +32,24 @@ class ReportBase(object):
         self._report_meta['date'] = time.strftime("%Y-%m-%d")
         self._report_meta['time'] = time.strftime("%I:%M:%S")
 
-    def set_report_content(self, content):
+    def set_report_content(self, project_content, role_content):
         """
-        Set report meta
+        Set report content
 
-        @param content: content for report
-        @type content: dict
+        @param project_content: content for report
+        @type project_content: dict
+        @param role_content: content for report
+        @type role_content: dict
         """
 
-        self._report_content = content
+        self._project_content = dict(project_content)
+        self._role_content = dict(role_content)
 
     def get_report(self):
         """
         Return full report
 
-        @return: string
+        @return: str
         """
 
         return self._report
