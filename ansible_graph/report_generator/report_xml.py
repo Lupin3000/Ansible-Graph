@@ -30,21 +30,32 @@ class ReportXML(ReportBase):
 
         return re_parsed.toprettyxml(indent="\t", encoding='utf-8')
 
-    def render_report(self):
-        """ Create XML report """
+    def __set_meta_nodes(self):
+        """
+        Define all project meta nodes
 
-        root_node = Element('project')
+        @return: object
+        """
 
-        # define meta
-        meta_node = SubElement(root_node, 'meta')
+        root = Element('root')
+        meta_node = SubElement(root, 'project_meta')
 
         for key, value in self._report_meta.iteritems():
             if value:
                 item_node = SubElement(meta_node, key)
                 item_node.text = value
 
-        # define project content
-        structure_node = SubElement(root_node, 'structure')
+        return root
+
+    def __set_project_nodes(self):
+        """
+        Define all project structure nodes
+
+        @return: object
+        """
+
+        root = Element('root')
+        structure_node = SubElement(root, 'project_structure')
 
         for key, value in self._project_content.iteritems():
             item_node = SubElement(structure_node, key)
@@ -53,22 +64,50 @@ class ReportXML(ReportBase):
             directories_node = SubElement(item_node, 'directories')
 
             if value['files']:
-                for file_value in value['files']:
-                    file_node = SubElement(files_node, 'file', name=file_value)
+                children = [
+                    Element('file', name=file_value)
+                    for file_value in value['files']
+                    ]
+                files_node.extend(children)
 
             if value['directories']:
-                for dir_value in value['directories']:
-                    dir_node = SubElement(directories_node, 'directory', name=dir_value)
+                children = [
+                    Element('directory', name=dir_value)
+                    for dir_value in value['directories']
+                    ]
+                directories_node.extend(children)
 
-        # define roles content
-        roles_node = SubElement(root_node, 'ansible_roles')
+        return root
+
+    def __set_roles_nodes(self):
+        """
+        Define all roles structure nodes
+
+        @return: object
+        """
+
+        root = Element('root')
+        roles_node = SubElement(root, 'ansible_roles')
 
         for key, value in self._role_content.iteritems():
             role_node = SubElement(roles_node, 'ansible_role', name=key)
 
             if value:
-                for dependency in value:
-                    dependencies_node = SubElement(role_node, 'dependency', name=dependency)
+                children = [
+                    Element('dependency', name=dependency)
+                    for dependency in value
+                    ]
+                role_node.extend(children)
+
+        return root
+
+    def render_report(self):
+        """ Create XML report """
+
+        root_node = Element('project')
+        root_node.extend(self.__set_meta_nodes())
+        root_node.extend(self.__set_project_nodes())
+        root_node.extend(self.__set_roles_nodes())
 
         self._report = ReportXML._prettify_raw_xml(root_node)
 
