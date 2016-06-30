@@ -34,7 +34,7 @@ class AnsibleRoleReader(object):
 
         if 'dependencies' in yml_content:
             for item in yml_content['dependencies']:
-                if type(item) is dict:
+                if isinstance(item, dict):
                     self.__ansible_roles[role_name].append(item['role'])
                 else:
                     self.__ansible_roles[role_name].append(item)

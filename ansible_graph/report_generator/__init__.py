@@ -5,6 +5,7 @@ import logging
 
 from .report_plain import ReportPlain
 from .report_xml import ReportXML
+from .report_json import ReportJSON
 
 
 class ReportGenerator(object):
@@ -109,7 +110,12 @@ class ReportGenerator(object):
         if self.__report_format == 'json':
             self.__logger.info('Parse JSON report')
 
-            pass
+            json = ReportJSON()
+            json.set_report_meta(self.__meta)
+            json.set_report_content(self.__project_content,
+                                    self.__role_content)
+            json.render_report()
+            self.__report = json.get_report()
         elif self.__report_format == 'xml':
             self.__logger.info('Parse XML report')
 

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """ XML report generator """
 
-from defusedxml import minidom, ElementTree
 from xml.etree.ElementTree import Element, SubElement
+from defusedxml import minidom, ElementTree
 
 from .report import ReportBase
 
