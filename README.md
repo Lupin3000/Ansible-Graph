@@ -13,8 +13,8 @@ Required Python version:
 
 Min. required libraries:
 
-- pip (8.1.2)
 - graphviz (0.4.10)
+- defusedxml (0.4.1)
 - pylint (_1.5.6 - optional_)
 - bandit (_1.0.1 - optional_)
 
@@ -85,7 +85,7 @@ $ ./ansible_graph.py <project> <configuration>
 
 ## Issues
 
-On some systems (_like Mac OS X_) the Graphviz dot executable is not found (_even the PATH variable is set correct_). The following solution helps to solve.
+On some systems (_like Mac OS X_) the Graphviz dot executable is not found (_even if the PATH variable is set correct_). The following solution helps to solve.
 
 ```
 $ which dot
@@ -100,7 +100,7 @@ search and change
 _engine = 'dot'
 ```
 
-into
+into (_the path is might be different for you_)
 
 ```
 _engine = '/usr/local/bin/dot'
@@ -110,7 +110,7 @@ _engine = '/usr/local/bin/dot'
 
 ## Next steps (_ToDo_)
 
-- more reports (_like: PDF, XML, JSON..._)
+- more reports (_like: PDF, JSON..._)
 - more testing (_I was lazy_)
 - matplotlib integration
 - more options (_what you can give as argument_)

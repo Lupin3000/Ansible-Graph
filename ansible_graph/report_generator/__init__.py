@@ -2,7 +2,9 @@
 """ Report generator package """
 
 import logging
+
 from .report_plain import ReportPlain
+from .report_xml import ReportXML
 
 
 class ReportGenerator(object):
@@ -111,7 +113,12 @@ class ReportGenerator(object):
         elif self.__report_format == 'xml':
             self.__logger.info('Parse XML report')
 
-            pass
+            xml = ReportXML()
+            xml.set_report_meta(self.__meta)
+            xml.set_report_content(self.__project_content,
+                                   self.__role_content)
+            xml.render_report()
+            self.__report = xml.get_report()
         else:
             self.__logger.info('Parse plain text report')
 

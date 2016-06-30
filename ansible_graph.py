@@ -5,9 +5,9 @@
 import argparse
 import logging
 import sys
+import os
 
 from ansible_graph import AnsibleGraphRunner
-from os import path, access, R_OK
 
 
 class AnsibleGraph(object):
@@ -80,7 +80,7 @@ class AnsibleGraph(object):
 
         self.__logger.info('Verify directory path - %s', dir_path)
 
-        if not path.isdir(dir_path) or not access(dir_path, R_OK):
+        if not os.path.isdir(dir_path) or not os.access(dir_path, os.R_OK):
             return False
         else:
             return True
@@ -97,7 +97,7 @@ class AnsibleGraph(object):
 
         self.__logger.info('Verify file path - %s', file_path)
 
-        if not path.isfile(file_path) or not access(file_path, R_OK):
+        if not os.path.isfile(file_path) or not os.access(file_path, os.R_OK):
             return False
         else:
             return True
