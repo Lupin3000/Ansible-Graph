@@ -60,12 +60,12 @@ class AnsibleRoleReader(object):
             # get dependencies
             self.__get_ansible_role_dependencies(role[0], item)
 
-    def set_reader_config(self, project_path):
+    def set_reader_config(self, ansible_project_path):
         """
         Settings for Ansible role reader
 
-        @param project_path: Ansible project location
-        @type project_path: str
+        @param ansible_project_path: Ansible project location
+        @type ansible_project_path: str
 
         @raise e: TypeError
         @raise e: ValueError
@@ -73,17 +73,17 @@ class AnsibleRoleReader(object):
 
         self.__logger.info('Set Ansible role reader configuration')
 
-        if not isinstance(project_path, str):
-            msg = 'Parameter: project_path needs to a string'
+        if not isinstance(ansible_project_path, str):
+            msg = 'Parameter: ansible_project_path needs to a string'
             self.__logger.error(msg)
             raise TypeError(msg)
 
-        if not project_path:
-            msg = 'Parameter: no project_path path provided'
+        if not ansible_project_path:
+            msg = 'Parameter: no ansible_project_path path provided'
             self.__logger.error(msg)
             raise ValueError(msg)
 
-        self.__project_path = str(project_path)
+        self.__project_path = str(ansible_project_path)
 
     def get_ansible_roles(self):
         """
