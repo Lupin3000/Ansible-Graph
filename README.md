@@ -83,31 +83,6 @@ $ ./ansible_graph.py <project> <configuration>
 
 ---
 
-## Issues
-
-On some systems (_like Mac OS X_) the Graphviz dot executable is not found (_even if the PATH variable is set correct_). The following solution helps to solve.
-
-```
-$ which dot
-/usr/local/bin/dot
-
-$ vim .env/lib/python2.7/site-packages/graphviz/files.py
-```
-
-search and change
-
-```
-_engine = 'dot'
-```
-
-into (_the path is might be different for you_)
-
-```
-_engine = '/usr/local/bin/dot'
-```
-
----
-
 ## Next steps (_ToDo_)
 
 - more reports (_like: PDF, JSON..._)
