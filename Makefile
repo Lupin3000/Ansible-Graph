@@ -17,10 +17,10 @@ deps:
 	$(ENV_DIR)/bin/pip install -r requirements.txt
 
 lint:
-	$(ENV_DIR)/bin/pylint ansible_stats.py
+	$(ENV_DIR)/bin/pylint ansible_graph.py
 
 bandit:
-	$(ENV_DIR)/bin/bandit -r ansible_statistics/
+	$(ENV_DIR)/bin/bandit -r ansible_graph/
 
 cleanenv:
 	rm -fr $(ENV_DIR)
