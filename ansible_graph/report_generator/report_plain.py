@@ -55,7 +55,7 @@ class ReportPlain(ReportBase):
         return content
 
     def render_report(self):
-        """ Create report """
+        """ Create plain text report """
 
         double_line = '=' * 80
         simple_line = '-' * 80
