@@ -136,11 +136,11 @@ class AnsibleGraphRunner(object):
 
         # get Ansible project structure
         self.__get_ansible_project_content()
-        self.__generate_graph('dir', self.__project_content)
+        self.__generate_graph('project', self.__project_content)
 
         # get Ansible roles
         self.__get_ansible_roles_content()
-        self.__generate_graph('role', self.__role_content)
+        self.__generate_graph('roles', self.__role_content)
 
     def get_report(self):
         """
