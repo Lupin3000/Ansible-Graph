@@ -17,7 +17,7 @@ deps:
 	$(ENV_DIR)/bin/pip install -r requirements.txt
 
 lint:
-	$(ENV_DIR)/bin/pylint ansible_graph.py
+	$(ENV_DIR)/bin/pylint ansible_graph/
 
 bandit:
 	$(ENV_DIR)/bin/bandit -r ansible_graph/

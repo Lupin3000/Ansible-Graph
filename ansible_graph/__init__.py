@@ -83,13 +83,25 @@ class AnsibleGraphRunner(object):
         self.__arg_options = dict(arg_options)
         self.__config_content = AnsibleGraphRunner.__read_configuration(
             str(configuration_path))
-        self.__directory_content = dict()
+        self.__project_content = dict()
         self.__role_content = dict()
 
-    def run_project_parser(self):
-        """ Run Ansible project parser """
+    def __get_ansible_project_content(self):
+        """ Read Ansible project directories and files into dictionary """
 
-        # get Ansible roles
+        include = list(self.__config_content['include'])
+        exclude = list(self.__config_content['exclude'])
+
+        try:
+            structure = AnsibleDirectoryReader()
+            structure.set_reader_config(self.__project_path, include, exclude)
+            self.__project_content = structure.get_ansible_structure()
+        except (TypeError, ValueError) as error:
+            self.__LOGGER.error(error)
+
+    def __get_ansible_roles_content(self):
+        """ Read Ansible roles and dependencies into dictionary """
+
         try:
             roles = AnsibleRoleReader()
             roles.set_reader_config(self.__project_path)
@@ -97,38 +109,38 @@ class AnsibleGraphRunner(object):
         except (TypeError, ValueError) as error:
             self.__LOGGER.error(error)
 
-        self.__LOGGER.info(self.__role_content)
+    def __generate_graph(self, graph_type, graph_content):
+        """
+        Generate graphviz graph by type and content
+
+        @param graph_type: definition for graph
+        @type graph_type: str
+        @param graph_content: content for graph
+        @type graph_content: dict
+        """
+
+        gv_format = str(self.__arg_options['format'])
+        gv_type = str(graph_type)
+        gv_location = str(self.__config_content['location'])
+        gv_content = dict(graph_content)
 
         try:
-            role_graph = GraphGenerator()
-            role_graph.set_graph_config(self.__arg_options['format'],
-                                        'role',
-                                        self.__config_content['location'])
-            role_graph.generate_graph(self.__role_content)
+            graph = GraphGenerator()
+            graph.set_graph_config(gv_format, gv_type, gv_location)
+            graph.generate_graph(gv_content)
         except (TypeError, ValueError) as error:
             self.__LOGGER.error(error)
+
+    def run_project_parser(self):
+        """ Run Ansible project parser """
 
         # get Ansible project structure
-        include = self.__config_content['include']
-        exclude = self.__config_content['exclude']
+        self.__get_ansible_project_content()
+        self.__generate_graph('dir', self.__project_content)
 
-        try:
-            structure = AnsibleDirectoryReader()
-            structure.set_reader_config(self.__project_path, include, exclude)
-            self.__directory_content = structure.get_ansible_structure()
-        except (TypeError, ValueError) as error:
-            self.__LOGGER.error(error)
-
-        self.__LOGGER.info(self.__directory_content)
-
-        try:
-            dir_graph = GraphGenerator()
-            dir_graph.set_graph_config(self.__arg_options['format'],
-                                       'dir',
-                                       self.__config_content['location'])
-            dir_graph.generate_graph(self.__directory_content)
-        except (TypeError, ValueError) as error:
-            self.__LOGGER.error(error)
+        # get Ansible roles
+        self.__get_ansible_roles_content()
+        self.__generate_graph('role', self.__role_content)
 
     def get_report(self):
         """
@@ -145,7 +157,7 @@ class AnsibleGraphRunner(object):
         try:
             report = ReportGenerator(self.__arg_options['report'])
             report.set_report_header(meta)
-            report.set_report_content(self.__directory_content,
+            report.set_report_content(self.__project_content,
                                       self.__role_content)
             output = report.get_report()
         except (TypeError, ValueError) as error:
