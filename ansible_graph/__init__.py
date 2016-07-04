@@ -126,8 +126,8 @@ class AnsibleGraphRunner(object):
 
         try:
             graph = GraphGenerator()
-            graph.set_graph_config(gv_format, gv_type, gv_location)
-            graph.generate_graph(gv_content)
+            graph.set_graph_config(gv_format, gv_location)
+            graph.generate_graph(gv_content, gv_type)
         except (TypeError, ValueError) as error:
             self.__LOGGER.error(error)
 
