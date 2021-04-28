@@ -80,13 +80,3 @@ $ ./ansible_graph.py --help
 # run application
 $ ./ansible_graph.py <project> <configuration>
 ```
-
----
-
-## Next steps (_ToDo_)
-
-- more reports (_like: PDF, JSON..._)
-- more testing (_I was lazy_)
-- matplotlib integration
-- more options (_what you can give as argument_)
-- Docker
